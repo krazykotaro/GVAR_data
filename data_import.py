@@ -2,6 +2,7 @@
 
 import pandas as pd
 import requests
+import psycopg2
 
 #USのGDPを取得
 url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/CompactData/IFS/Q.US.NGDP_R_CH_SA_XDC?startPeriod=1957&endPeriod=2016'
@@ -20,5 +21,5 @@ data = pd.concat([base_year, country, obs], axis = 1)
 data.columns = ["base_year", "country", "rgdp", "time"]
 data = data.ix[:, ["time", "country", "rgdp", "base_year"]]
 
-#test
-data.to_csv("test.csv")
+#データベースに接続
+connection = psycopg2.connect("host=rds-for-data.csjbwxuxnbph.ap-northeast-1.rds.amazonaws.com por dbname=sampledb user=sayamada password=pssword")
